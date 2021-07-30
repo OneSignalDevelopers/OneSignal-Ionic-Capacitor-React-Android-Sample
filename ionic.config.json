@@ -1,0 +1,7 @@
+{
+  "name": "os-ionic-android",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
