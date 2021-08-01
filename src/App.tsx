@@ -33,8 +33,20 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
-const App: React.FC = () => (
-  <IonApp>
+
+declare global {
+ interface Window {
+  plugins: {
+    OneSignal: any;
+   }
+ }
+}
+
+const App: React.FC = () =>{
+
+  window.plugins.OneSignal.setAppId("YOUR-APP-ID");
+
+  return(<IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
@@ -67,7 +79,7 @@ const App: React.FC = () => (
         </IonTabBar>
       </IonTabs>
     </IonReactRouter>
-  </IonApp>
-);
+  </IonApp>)
+};
 
 export default App;
