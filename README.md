@@ -67,7 +67,7 @@ Later you will be asked to select a template, feel free to select the template t
 
 This is a simple Ionic React Android app that illustrates how to integrate the OneSignal SDK.
 
-Running on the Cordova npm package [onesignal-cordova-plugin 3.0.0-beta1](https://documentation.onesignal.com/docs/step-by-step-cordova-2x-to-300-upgrade-guide) release.
+Running on the Cordova npm package [onesignal-cordova-plugin](https://documentation.onesignal.com/docs/step-by-step-cordova-2x-to-300-upgrade-guide) release.
 
 Add your desire platform to the project, for this app I chose Android by running: `ionic capacitor add android`
 
@@ -77,29 +77,25 @@ It’s time to build your Android app. This command will open the Android build 
 
 After building your Ionic application into a new **Android app**, run the **cap sync** command (1 time only): `npx cap sync`
 
-Inside of your **App.tsx** file, before you declare the App component, define the Global interface for the OneSignal object to be part of your Window object
+At the top of you **App.tsx** file, import the OneSignal npm package to your component.
 
-```typescript
-declare global {
-  interface Window {
-    plugins: {
-      OneSignal: any;
-    };
-  }
-}
-```
+`import OneSignal from 'onesignal-cordova-plugin';`
 
-Add the following initialization code to the **App.tsx** file
-
-**Note: Make sure to add your app Id, which you previously copied from the OneSignal Setup steps.**
+Add the following initialization code to the App.tsx file. **Make sure to add your app ID, which you previously copied during Google Android FCM Configuration.**
 
 ```javascript
-window.plugins.OneSignal.setAppId("YOUR-APP-ID");
+// Call this function when your app starts
+function OneSignalInit(): void {
+  // NOTE: Update the setAppId value below with your OneSignal AppId.
+  OneSignal.setAppId("YOUR_ONESIGNAL_APP_ID");
+  OneSignal.setNotificationOpenedHandler(function(jsonData) {
+      console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+  });
+}
 ```
+After creating the `OneSignalInit()` function, you are going to call it when your app starts. In the **App.tsx** file, add the following line of code:
 
-The code above will make the `window` object aware of the `OneSignal` property. This will allow you to have access to the OneSignal SDK properties after the SDK has loaded into your Ionic application.
-
-More context [here](https://github.com/OneSignal/OneSignal-Cordova-SDK/issues/700#issuecomment-842788403).
+`OneSignalInit();`
 
 Finally, build your app again by running `ionic capacitor build android` and open the project in Android Studio.
 
